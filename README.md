@@ -4,6 +4,15 @@ An AI agent for sales — lead generation, LinkedIn outreach, company enrichment
 
 Part of [Agency Agents OS](https://github.com/Anil-matcha/agency-agents-os), an open ecosystem of specialized AI agents for real business work.
 
+## Related Projects
+
+- [Agency Agents OS](https://github.com/Anil-matcha/agency-agents-os) — the central catalog this repo is part of.
+- [ai-research-agent](https://github.com/SamurAIGPT/ai-research-agent) — deeper web research on a prospect/company beyond enrichment lookups.
+- [ai-marketing-agent](https://github.com/SamurAIGPT/ai-marketing-agent) — nurtures leads this repo generates.
+- [MuAPI MCP docs](https://muapi.ai/docs/mcp) — connect this repo's `SKILL.md` files via MCP.
+- [MuAPI Agent Skills](https://muapi.ai/docs/agent-skills) — background on the `SKILL.md` pattern this repo uses.
+- [MuAPI access keys](https://muapi.ai/access-keys) — create the API key this agent needs.
+
 ## What this covers
 
 This repo is the umbrella for anything an agency or in-house sales team would call "the AI sales agent": turning an ideal-customer-profile description into a verified, enriched prospect list, and drafting the outreach to reach them — without hand-operating a separate tool for each step.
