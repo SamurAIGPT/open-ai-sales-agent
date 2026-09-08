@@ -4,7 +4,7 @@ slug: linkedin-outreach
 version: 1.0.0
 category: sales
 description: Drafts and sequences personalized LinkedIn connection and outreach messages; never sends a message without explicit human approval.
-status: coming-soon
+status: blueprint
 muapi_capabilities:
   - outreach.draft_message
   - company.enrich

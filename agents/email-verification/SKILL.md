@@ -4,7 +4,7 @@ slug: email-verification
 version: 1.0.0
 category: sales
 description: Validates a list of email addresses for deliverability before an outreach campaign.
-status: coming-soon
+status: blueprint
 muapi_capabilities:
   - email.verify
 required_connections:

@@ -4,7 +4,7 @@ slug: lead-generation
 version: 1.0.0
 category: sales
 description: Builds a targeted prospect list of companies and contacts from an ideal-customer-profile (ICP) description.
-status: coming-soon
+status: blueprint
 muapi_capabilities:
   - people.search
   - company.enrich

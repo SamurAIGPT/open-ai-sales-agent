@@ -4,7 +4,7 @@ slug: company-enrichment
 version: 1.0.0
 category: sales
 description: Enriches a company name or domain with firmographic data — size, funding, tech stack, and industry.
-status: coming-soon
+status: blueprint
 muapi_capabilities:
   - company.enrich
 required_connections:

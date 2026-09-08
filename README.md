@@ -21,10 +21,10 @@ This repo is the umbrella for anything an agency or in-house sales team would ca
 
 | Agent | Does | Status |
 |---|---|---|
-| [Lead Generation](agents/lead-generation/SKILL.md) | Build a targeted prospect list from an ICP description | Coming Soon |
-| [LinkedIn Outreach](agents/linkedin-outreach/SKILL.md) | Draft and sequence personalized connection/outreach messages (never auto-sends) | Coming Soon |
-| [Company Enrichment](agents/company-enrichment/SKILL.md) | Enrich a company name/domain with firmographic data | Coming Soon |
-| [Email Verification](agents/email-verification/SKILL.md) | Validate a list of email addresses for deliverability before a campaign | Coming Soon |
+| [Lead Generation](agents/lead-generation/SKILL.md) | Build a targeted prospect list from an ICP description | Blueprint |
+| [LinkedIn Outreach](agents/linkedin-outreach/SKILL.md) | Draft and sequence personalized connection/outreach messages (never auto-sends) | Blueprint |
+| [Company Enrichment](agents/company-enrichment/SKILL.md) | Enrich a company name/domain with firmographic data | Blueprint |
+| [Email Verification](agents/email-verification/SKILL.md) | Validate a list of email addresses for deliverability before a campaign | Blueprint |
 
 ## Required Muapi APIs
 
@@ -66,7 +66,7 @@ Company enrichment and email verification are `read-only` — they look up and v
 
 ## Status and limitations
 
-All four sub-agents are Coming Soon. They depend on B2B enrichment, people-search, and email-verification capabilities that are not yet live on Muapi. This repo defines the intended shape of each agent (inputs, workflow, decision rules, approval boundaries, output format) so implementation can start as soon as the underlying Muapi capabilities ship.
+All four sub-agents are Blueprint: the workflow, decision rules, approval boundaries, and output format are fully defined against Muapi's `company.enrich`, `people.search`, and `email.verify` capabilities, but those capabilities are not yet live on Muapi's production API — each sub-agent's own `SKILL.md` states this plainly rather than fabricating results in the meantime. Status will move to Tested once the capabilities ship and the workflow has been run end-to-end.
 
 ## Contributing
 
