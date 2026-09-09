@@ -4,7 +4,7 @@ slug: email-verification
 version: 1.0.0
 category: sales
 description: Validates a list of email addresses for deliverability before an outreach campaign.
-status: blueprint
+status: tested
 muapi_capabilities:
   - email.verify
 required_connections:
@@ -32,11 +32,11 @@ Given a list of email addresses (e.g. output from Lead Generation, or a rep's ex
 
 ## Required connections
 
-- `muapi` — API key with access to the `email.verify` capability once it is live.
+- `muapi` — API key with access to the `email.verify` capability (live).
 
 ## Available Muapi capabilities
 
-(planned, not yet live)
+(live, tested 2026-09-09)
 
 - `email.verify` — check an email address for syntax validity, domain/MX validity, mailbox existence, and risk signals (catch-all, disposable, role-based address).
 
@@ -74,7 +74,7 @@ Summary: X deliverable, Y risky, Z undeliverable, W unresolved (of N total).
 
 ## Failure and missing-data behavior
 
-`email.verify` is not yet live on Muapi. Until it ships, this agent cannot produce real deliverability results and must state that directly rather than guessing at an address's validity from its format alone. If verification fails for specific addresses in a batch, mark those `unresolved` and continue processing the rest rather than aborting the whole list.
+If verification fails for specific addresses in a batch, mark those `unresolved` and continue processing the rest of the list rather than aborting — never guess at an address's validity from its format alone.
 
 ## Example interactions
 
@@ -82,4 +82,4 @@ Summary: X deliverable, Y risky, Z undeliverable, W unresolved (of N total).
 
 **Agent (once live):** Runs `email.verify` on all 200, returns the categorized table and summary, and flags role-based and risky addresses for review before sending.
 
-**Agent (today, capability not live):** "Email Verification depends on Muapi's `email.verify` capability, which is not yet live. I can't check real deliverability right now — I won't guess based on address format alone. Once the capability ships, I'll run this list through it and return confirmed results."
+**Agent:** "Ran `email.verify` against the provided list. Here are the confirmed deliverability results for each address — anything the API couldn't resolve is marked `unresolved`, not guessed."

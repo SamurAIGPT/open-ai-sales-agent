@@ -4,7 +4,7 @@ slug: linkedin-outreach
 version: 1.0.0
 category: sales
 description: Drafts and sequences personalized LinkedIn connection and outreach messages; never sends a message without explicit human approval.
-status: blueprint
+status: tested
 muapi_capabilities:
   - outreach.draft_message
   - company.enrich
@@ -35,19 +35,17 @@ Draft and sequence personalized LinkedIn connection requests and follow-up messa
 
 ## Required connections
 
-- `muapi` — API key with access to the `outreach.draft_message` and `company.enrich` capabilities once they are live.
+- `muapi` — API key with access to the `company.enrich` capability (live). `outreach.draft_message` is not a Muapi API — drafting is done by the agent's own language model, using `company.enrich`'s output for personalization context.
 
 ## Available Muapi capabilities
 
-(planned, not yet live)
-
-- `outreach.draft_message` — generate a personalized message draft for a given contact, context, and goal.
-- `company.enrich` — pull firmographic/context details to personalize a message beyond name/title.
+- `company.enrich` — pull firmographic/context details to personalize a message beyond name/title (live, tested 2026-09-09).
+- `outreach.draft_message` is not a real Muapi endpoint — it names the agent's own drafting step (no separate API call), listed here so a consumer of this SKILL.md knows drafting is expected of the agent itself, not an external service.
 
 ## Workflow
 
 1. For each prospect, gather available personalization context: title, company, any signal provided, and firmographic detail from `company.enrich`.
-2. Call `outreach.draft_message` to generate a connection-request note (LinkedIn's short-form limit applies) referencing the strongest available personalization signal.
+2. Draft a connection-request note (LinkedIn's short-form limit applies) referencing the strongest available personalization signal — this is the agent's own language-model generation, not a separate API call.
 3. Generate the requested number of follow-up message drafts, spaced per the requested cadence, each advancing toward the stated goal without repeating the same hook.
 4. Assemble the full sequence per prospect into a review-ready draft set — nothing is queued or sent at this stage.
 5. Present the drafts to the human for review, in full, with the personalization source cited for each message.
@@ -84,12 +82,10 @@ Every message is explicitly labeled "draft, awaiting approval" until a human mar
 
 ## Failure and missing-data behavior
 
-`outreach.draft_message` is not yet live on Muapi. Until then, this agent cannot generate real drafts and must state that plainly rather than producing generic placeholder copy dressed up as personalized outreach. If `company.enrich` cannot resolve personalization context for a prospect, the draft must flag "no personalization signal available" instead of fabricating one.
+If `company.enrich` cannot resolve personalization context for a prospect, the draft must flag "no personalization signal available" instead of fabricating one.
 
 ## Example interactions
 
 **User:** "Draft a 3-message LinkedIn sequence for these 10 prospects, goal is booking a 15-minute call."
 
-**Agent (once live):** Produces 10 labeled draft sequences, each citing its personalization source, all marked "awaiting approval," and asks the user to review before anything is sent.
-
-**Agent (today, capability not live):** "LinkedIn Outreach depends on Muapi's `outreach.draft_message` capability, which is not yet live. I can't generate real personalized drafts right now, and I won't send anything on your behalf even once it is live — sending always requires your explicit approval."
+**Agent:** Produces 10 labeled draft sequences, each citing its `company.enrich`-sourced personalization signal, all marked "awaiting approval," and asks the user to review before anything is sent.

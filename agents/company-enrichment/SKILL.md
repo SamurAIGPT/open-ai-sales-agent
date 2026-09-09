@@ -4,7 +4,7 @@ slug: company-enrichment
 version: 1.0.0
 category: sales
 description: Enriches a company name or domain with firmographic data — size, funding, tech stack, and industry.
-status: blueprint
+status: tested
 muapi_capabilities:
   - company.enrich
 required_connections:
@@ -32,11 +32,11 @@ Given a company name or domain, return a structured firmographic profile — emp
 
 ## Required connections
 
-- `muapi` — API key with access to the `company.enrich` capability once it is live.
+- `muapi` — API key with access to the `company.enrich` capability (live).
 
 ## Available Muapi capabilities
 
-(planned, not yet live)
+(live, tested 2026-09-09)
 
 - `company.enrich` — resolve a company name/domain to a firmographic profile: employee count, funding rounds/stage, technology stack, industry/vertical, headquarters location.
 
@@ -77,7 +77,7 @@ A structured profile per company:
 
 ## Failure and missing-data behavior
 
-`company.enrich` is not yet live on Muapi. Until it ships, this agent cannot return a real firmographic profile and must say so directly rather than fabricating plausible-sounding company data. If a call fails for one company in a batch, report that specific failure and continue processing the rest.
+If `company.enrich` returns no match for a domain, report that specific failure and continue processing the rest of the batch rather than aborting — do not fabricate a plausible-sounding profile for a miss.
 
 ## Example interactions
 
@@ -85,4 +85,4 @@ A structured profile per company:
 
 **Agent (once live):** Calls `company.enrich` for each domain, returns 5 structured profiles, flags any unresolved fields, and asks for clarification on any ambiguous name-to-domain match.
 
-**Agent (today, capability not live):** "Company Enrichment depends on Muapi's `company.enrich` capability, which is not yet live. I can't return real firmographic data right now — I won't invent it. Once the capability ships, I'll run these domains through it and return confirmed profiles."
+**Agent:** "Ran `company.enrich` against the provided domains. Here is the confirmed firmographic profile for each — any domain with no match is flagged rather than filled in with a guess."

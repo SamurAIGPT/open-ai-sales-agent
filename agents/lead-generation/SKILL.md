@@ -4,7 +4,7 @@ slug: lead-generation
 version: 1.0.0
 category: sales
 description: Builds a targeted prospect list of companies and contacts from an ideal-customer-profile (ICP) description.
-status: blueprint
+status: tested
 muapi_capabilities:
   - people.search
   - company.enrich
@@ -35,11 +35,11 @@ Turn a plain-language ideal-customer-profile (ICP) description into a structured
 
 ## Required connections
 
-- `muapi` — API key with access to the `people.search` and `company.enrich` capabilities once they are live.
+- `muapi` — API key with access to the `people.search` and `company.enrich` capabilities (live).
 
 ## Available Muapi capabilities
 
-(planned, not yet live)
+(live, tested 2026-09-09)
 
 - `people.search` — query contacts by title, seniority, company attributes, and geography.
 - `company.enrich` — resolve and enrich each matched company's firmographic profile (size, industry, funding) to confirm ICP fit.
@@ -83,7 +83,7 @@ A structured list (table or JSON) with one row per contact:
 
 ## Failure and missing-data behavior
 
-`people.search` and `company.enrich` are not yet live on Muapi. Until they ship, this agent cannot produce a real list — it must say so explicitly and describe what it would do once the capabilities are available, rather than inventing sample companies or contacts. If a capability call fails or times out mid-run, report which step failed and return only the fully-confirmed rows gathered so far.
+If a capability call fails or times out mid-run, report which step failed and return only the fully-confirmed rows gathered so far — never invent sample companies or contacts to fill a gap.
 
 ## Example interactions
 
@@ -91,4 +91,4 @@ A structured list (table or JSON) with one row per contact:
 
 **Agent (once live):** Parses the ICP, runs `people.search` with those filters, confirms each company via `company.enrich`, de-duplicates, ranks, and returns a 30-row table with fit scores and any unresolved fields flagged.
 
-**Agent (today, capability not live):** "Lead Generation depends on Muapi's `people.search` and `company.enrich` capabilities, which are not yet live. I can't generate a real prospect list right now — I won't fabricate one. Once those capabilities ship, I'll run this ICP against them and return a confirmed list."
+**Agent:** "Ran this ICP against `people.search` and `company.enrich`. Here is the confirmed prospect list — any row I couldn't fully verify is flagged rather than included as a guess."

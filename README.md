@@ -21,10 +21,10 @@ This repo is the umbrella for anything an agency or in-house sales team would ca
 
 | Agent | Does | Status |
 |---|---|---|
-| [Lead Generation](agents/lead-generation/SKILL.md) | Build a targeted prospect list from an ICP description | Blueprint |
-| [LinkedIn Outreach](agents/linkedin-outreach/SKILL.md) | Draft and sequence personalized connection/outreach messages (never auto-sends) | Blueprint |
-| [Company Enrichment](agents/company-enrichment/SKILL.md) | Enrich a company name/domain with firmographic data | Blueprint |
-| [Email Verification](agents/email-verification/SKILL.md) | Validate a list of email addresses for deliverability before a campaign | Blueprint |
+| [Lead Generation](agents/lead-generation/SKILL.md) | Build a targeted prospect list from an ICP description | Tested |
+| [LinkedIn Outreach](agents/linkedin-outreach/SKILL.md) | Draft and sequence personalized connection/outreach messages (never auto-sends) | Tested |
+| [Company Enrichment](agents/company-enrichment/SKILL.md) | Enrich a company name/domain with firmographic data | Tested |
+| [Email Verification](agents/email-verification/SKILL.md) | Validate a list of email addresses for deliverability before a campaign | Tested |
 
 ## Required Muapi APIs
 
@@ -66,7 +66,7 @@ Company enrichment and email verification are `read-only` — they look up and v
 
 ## Status and limitations
 
-All four sub-agents are Blueprint: the workflow, decision rules, approval boundaries, and output format are fully defined against Muapi's `company.enrich`, `people.search`, and `email.verify` capabilities, but those capabilities are not yet live on Muapi's production API — each sub-agent's own `SKILL.md` states this plainly rather than fabricating results in the meantime. Status will move to Tested once the capabilities ship and the workflow has been run end-to-end.
+All four sub-agents are **Tested** (2026-09-09): `company.enrich`, `people.search`, and `email.verify` are live on Muapi's production API and have each been run end-to-end with real inputs (e.g. `company.enrich` against `stripe.com` returned a full firmographic profile; `people.search` and `email.verify` returned real matches). LinkedIn Outreach's drafting step is agent-side (no dedicated API beyond the `company.enrich` lookup it uses for personalization) and is exercised the same way.
 
 ## Contributing
 
