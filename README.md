@@ -1,6 +1,6 @@
 # AI Sales Agent
 
-An AI agent for sales — lead generation, LinkedIn outreach, company enrichment, and email verification — backed by real B2B data APIs.
+An AI agent for sales — lead generation, ad-based prospecting, LinkedIn outreach, company enrichment, and email verification — backed by real B2B data APIs.
 
 Part of [Agency Agents OS](https://github.com/Anil-matcha/agency-agents-os), an open ecosystem of specialized AI agents for real business work.
 
@@ -22,6 +22,7 @@ This repo is the umbrella for anything an agency or in-house sales team would ca
 | Agent | Does | Status |
 |---|---|---|
 | [Lead Generation](agents/lead-generation/SKILL.md) | Build a targeted prospect list from an ICP description | Tested |
+| [Ad-Based Prospecting](agents/ad-based-prospecting/SKILL.md) | Find companies actively running ads as a warm, budget-confirmed lead signal | Blueprint |
 | [LinkedIn Outreach](agents/linkedin-outreach/SKILL.md) | Draft and sequence personalized connection/outreach messages (never auto-sends) | Tested |
 | [Company Enrichment](agents/company-enrichment/SKILL.md) | Enrich a company name/domain with firmographic data | Tested |
 | [Email Verification](agents/email-verification/SKILL.md) | Validate a list of email addresses for deliverability before a campaign | Tested |
@@ -32,6 +33,7 @@ This repo is the umbrella for anything an agency or in-house sales team would ca
 - `people.search` — prospect/contact search against an ICP description.
 - `email.verify` — email deliverability validation for a list of addresses.
 - `outreach.draft_message` — personalized outreach/connection message drafting.
+- `ads.ad_library_search` — public ad-transparency library lookup, used by Ad-Based Prospecting to find companies with active ad spend (shared with [`ai-ads-agent`](https://github.com/SamurAIGPT/ai-ads-agent)/[`ai-competitor-intelligence-agent`](https://github.com/SamurAIGPT/ai-competitor-intelligence-agent)).
 
 See each sub-agent's `SKILL.md` for the specific capabilities it uses.
 
@@ -62,11 +64,11 @@ Drop a sub-agent's `SKILL.md` into a Claude Code project's `.claude/skills/` dir
 
 ## Read-only vs. write actions
 
-Company enrichment and email verification are `read-only` — they look up and validate data, nothing is sent anywhere. LinkedIn outreach is `requires-approval-to-publish`: the agent only drafts connection/outreach messages and sequences; it never sends a message on its own. A human must review and approve every send.
+Lead Generation, Ad-Based Prospecting, Company Enrichment, and Email Verification are `read-only` — they look up, source, and validate data, nothing is sent anywhere. LinkedIn Outreach is `requires-approval-to-publish`: the agent only drafts connection/outreach messages and sequences; it never sends a message on its own. A human must review and approve every send.
 
 ## Status and limitations
 
-All four sub-agents are **Tested** (2026-09-09): `company.enrich`, `people.search`, and `email.verify` are live on Muapi's production API and have each been run end-to-end with real inputs (e.g. `company.enrich` against `stripe.com` returned a full firmographic profile; `people.search` and `email.verify` returned real matches). LinkedIn Outreach's drafting step is agent-side (no dedicated API beyond the `company.enrich` lookup it uses for personalization) and is exercised the same way.
+Four sub-agents are **Tested** (2026-09-09): `company.enrich`, `people.search`, and `email.verify` are live on Muapi's production API and have each been run end-to-end with real inputs (e.g. `company.enrich` against `stripe.com` returned a full firmographic profile; `people.search` and `email.verify` returned real matches). LinkedIn Outreach's drafting step is agent-side (no dedicated API beyond the `company.enrich` lookup it uses for personalization) and is exercised the same way. **Ad-Based Prospecting is Blueprint (added 2026-09-10)**: `ads.ad_library_search` is coded but only its Meta leg is confirmed working — Google/TikTok/LinkedIn aren't yet functional (same aggregator vendor-key blocker tracked in `ai-competitor-intelligence-agent`/`ai-ads-agent`); `company.enrich` used within this sub-agent is already live and tested.
 
 ## Contributing
 
