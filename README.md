@@ -34,6 +34,12 @@ This repo is the umbrella for anything an agency or in-house sales team would ca
 - `email.verify` — email deliverability validation for a list of addresses.
 - `outreach.draft_message` — personalized outreach/connection message drafting.
 - `ads.ad_library_search` — public ad-transparency library lookup, used by Ad-Based Prospecting to find companies with active ad spend (shared with [`ai-ads-agent`](https://github.com/SamurAIGPT/ai-ads-agent)/[`ai-competitor-intelligence-agent`](https://github.com/SamurAIGPT/ai-competitor-intelligence-agent)).
+- `company.technographics` — detect a company's website tech stack, or find companies using a given technology (reverse lookup). *(coded 2026-09-17, not yet live)*
+- `company.funding` — a company's funding rounds and financing events, or the latest rounds across companies. *(coded 2026-09-17, not yet live)*
+- `company.buying_signals` — buying/intent signals detected for a company. *(coded 2026-09-17, not yet live)*
+- `company.job_postings` / `company.headcount_growth` — hiring activity and headcount growth as buying-signal/timing filters. *(coded 2026-09-17, not yet live)*
+- `people.rank_decision_makers` — rank a company's decision-makers to surface the best-fit buyer contact. *(coded 2026-09-17, not yet live)*
+- `linkedin.company_profile` / `linkedin.people_search` / `linkedin.employees` — read-only LinkedIn company page, member profile, and employee-roster lookups. *(coded 2026-09-17, not yet live)*
 
 See each sub-agent's `SKILL.md` for the specific capabilities it uses.
 
@@ -69,6 +75,8 @@ Lead Generation, Ad-Based Prospecting, Company Enrichment, and Email Verificatio
 ## Status and limitations
 
 Four sub-agents are **Tested** (2026-09-09): `company.enrich`, `people.search`, and `email.verify` are live on Muapi's production API and have each been run end-to-end with real inputs (e.g. `company.enrich` against `stripe.com` returned a full firmographic profile; `people.search` and `email.verify` returned real matches). LinkedIn Outreach's drafting step is agent-side (no dedicated API beyond the `company.enrich` lookup it uses for personalization) and is exercised the same way. **Ad-Based Prospecting is Blueprint (added 2026-09-10)**: `ads.ad_library_search` is coded but only its Meta leg is confirmed working — Google/TikTok/LinkedIn aren't yet functional (same aggregator vendor-key blocker tracked in `ai-competitor-intelligence-agent`/`ai-ads-agent`); `company.enrich` used within this sub-agent is already live and tested.
+
+**2026-09-17 addition, not yet reflected in the Tested status above:** Lead Generation, Company Enrichment, and LinkedIn Outreach now also reference `company.technographics`, `company.funding`, `company.buying_signals`, `company.job_postings`, `company.headcount_growth`, `people.rank_decision_makers`, and `linkedin.company_profile`/`linkedin.people_search`/`linkedin.employees` in their workflows. These are code-complete server-side but **not yet live** on Muapi's production API (no DB sync/`seed_skills` run yet, and several endpoint ids are still unverified best-effort guesses pending a live token call) — each affected sub-agent's own `SKILL.md` states this plainly. The pre-existing Tested capabilities on these same sub-agents (`company.enrich`, `people.search`, `outreach.draft_message`) are unaffected and remain live.
 
 ## Contributing
 

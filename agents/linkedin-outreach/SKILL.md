@@ -1,13 +1,16 @@
 ---
 name: LinkedIn Outreach
 slug: linkedin-outreach
-version: 1.0.0
+version: 1.1.0
 category: sales
 description: Drafts and sequences personalized LinkedIn connection and outreach messages; never sends a message without explicit human approval.
 status: tested
 muapi_capabilities:
   - outreach.draft_message
   - company.enrich
+  - linkedin.company_profile
+  - linkedin.people_search
+  - linkedin.employees
 required_connections:
   - muapi
 permissions:
@@ -35,16 +38,19 @@ Draft and sequence personalized LinkedIn connection requests and follow-up messa
 
 ## Required connections
 
-- `muapi` — API key with access to the `company.enrich` capability (live). `outreach.draft_message` is not a Muapi API — drafting is done by the agent's own language model, using `company.enrich`'s output for personalization context.
+- `muapi` — API key with access to `company.enrich` (live), plus `linkedin.company_profile`, `linkedin.people_search`, and `linkedin.employees` once they are live. `outreach.draft_message` is not a Muapi API — drafting is done by the agent's own language model, using `company.enrich`/`linkedin.*` output for personalization context.
 
 ## Available Muapi capabilities
 
 - `company.enrich` — pull firmographic/context details to personalize a message beyond name/title (live, tested 2026-09-09).
+- `linkedin.company_profile` — **planned, not yet live** (code-complete server-side as of 2026-09-17). Look up a prospect's employer's real public LinkedIn page data (description, industry, employee/follower counts) as a personalization source, by LinkedIn URL or domain.
+- `linkedin.people_search` — **planned, not yet live** (code-complete server-side as of 2026-09-17). Resolve a prospect's own LinkedIn profile when only a name/company/title was supplied, closing the previous gap where this agent had no LinkedIn-native lookup at all.
+- `linkedin.employees` — **planned, not yet live** (code-complete server-side as of 2026-09-17). Pull a prospect's colleagues at the same company, useful for multi-threading a sequence across a buying committee once other decision-makers are identified.
 - `outreach.draft_message` is not a real Muapi endpoint — it names the agent's own drafting step (no separate API call), listed here so a consumer of this SKILL.md knows drafting is expected of the agent itself, not an external service.
 
 ## Workflow
 
-1. For each prospect, gather available personalization context: title, company, any signal provided, and firmographic detail from `company.enrich`.
+1. For each prospect, gather available personalization context: title, company, any signal provided, firmographic detail from `company.enrich`, and (once live) the prospect's/company's real LinkedIn data via `linkedin.people_search`/`linkedin.company_profile`.
 2. Draft a connection-request note (LinkedIn's short-form limit applies) referencing the strongest available personalization signal — this is the agent's own language-model generation, not a separate API call.
 3. Generate the requested number of follow-up message drafts, spaced per the requested cadence, each advancing toward the stated goal without repeating the same hook.
 4. Assemble the full sequence per prospect into a review-ready draft set — nothing is queued or sent at this stage.
@@ -82,7 +88,7 @@ Every message is explicitly labeled "draft, awaiting approval" until a human mar
 
 ## Failure and missing-data behavior
 
-If `company.enrich` cannot resolve personalization context for a prospect, the draft must flag "no personalization signal available" instead of fabricating one.
+The `linkedin.*` capabilities are not yet live on Muapi; until they ship, treat LinkedIn-native personalization signals as unavailable rather than fabricating them. If `company.enrich`/`linkedin.company_profile`/`linkedin.people_search` cannot resolve personalization context for a prospect, the draft must flag "no personalization signal available" instead of fabricating one.
 
 ## Example interactions
 

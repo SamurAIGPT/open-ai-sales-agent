@@ -1,13 +1,18 @@
 ---
 name: Lead Generation
 slug: lead-generation
-version: 1.0.0
+version: 1.1.0
 category: sales
 description: Builds a targeted prospect list of companies and contacts from an ideal-customer-profile (ICP) description.
 status: tested
 muapi_capabilities:
   - people.search
   - company.enrich
+  - company.technographics
+  - company.buying_signals
+  - company.job_postings
+  - company.headcount_growth
+  - people.rank_decision_makers
 required_connections:
   - muapi
 permissions:
@@ -35,24 +40,29 @@ Turn a plain-language ideal-customer-profile (ICP) description into a structured
 
 ## Required connections
 
-- `muapi` — API key with access to the `people.search` and `company.enrich` capabilities (live).
+- `muapi` — API key with access to `people.search` and `company.enrich` (live), plus `company.technographics`, `company.buying_signals`, `company.job_postings`, `company.headcount_growth`, and `people.rank_decision_makers` once they are live.
 
 ## Available Muapi capabilities
 
-(live, tested 2026-09-09)
-
-- `people.search` — query contacts by title, seniority, company attributes, and geography.
-- `company.enrich` — resolve and enrich each matched company's firmographic profile (size, industry, funding) to confirm ICP fit.
+- `people.search` — **live, tested 2026-09-09.** Query contacts by title, seniority, company attributes, and geography.
+- `company.enrich` — **live, tested 2026-09-09.** Resolve and enrich each matched company's firmographic profile (size, industry, funding) to confirm ICP fit.
+- `company.technographics` (mode `reverse`) — **planned, not yet live** (code-complete server-side as of 2026-09-17). Find companies actually using a given technology, turning an ICP's "tools they use" technographic signal into a real candidate-company list instead of a filter applied after the fact.
+- `company.buying_signals` — **planned, not yet live** (code-complete server-side as of 2026-09-17). Surface detected buying/intent signals per candidate company, to prioritize which ICP-fit companies are worth prospecting first.
+- `company.job_postings` / `company.headcount_growth` — **planned, not yet live** (code-complete server-side as of 2026-09-17). Hiring activity and headcount growth as additional buying-signal/timing filters (e.g. "actively hiring for the team this ICP targets").
+- `people.rank_decision_makers` — **planned, not yet live** (code-complete server-side as of 2026-09-17). Rank each candidate company's decision-makers so the returned contact isn't just any title match, but the best-fit buyer at that company.
 
 ## Workflow
 
 1. Parse the ICP description into structured filters: industry, headcount range, geography, funding/revenue band, technographic signals, target titles.
-2. Call `people.search` with the structured filters to retrieve candidate contacts and their companies.
-3. For each unique company returned, call `company.enrich` to confirm it matches the ICP's firmographic criteria (size, funding, industry) before including any of its contacts.
-4. Drop companies that fail firmographic confirmation, and drop contacts on the exclusion list.
-5. De-duplicate contacts by email/LinkedIn URL and companies by domain.
-6. Rank the remaining list by fit strength (how closely title, seniority, and firmographics match the ICP) and truncate to the requested size.
-7. Return the structured list, flagging any fields Muapi could not resolve (e.g. missing title) rather than guessing.
+2. If the ICP includes a technographic signal ("companies using X"), call `company.technographics` (mode `reverse`) first to get a candidate-company list, then intersect with other filters.
+3. Call `people.search` with the structured filters to retrieve candidate contacts and their companies.
+4. For each unique company returned, call `company.enrich` to confirm it matches the ICP's firmographic criteria (size, funding, industry) before including any of its contacts.
+5. Optionally call `company.buying_signals` and/or `company.job_postings`/`company.headcount_growth` per candidate company to compute a timing/priority signal for ranking.
+6. For each confirmed company, call `people.rank_decision_makers` to select the best-fit contact(s) rather than the first title match from `people.search`.
+7. Drop companies that fail firmographic confirmation, and drop contacts on the exclusion list.
+8. De-duplicate contacts by email/LinkedIn URL and companies by domain.
+9. Rank the remaining list by fit strength (title/seniority/firmographic match, decision-maker rank, and any buying/hiring signal) and truncate to the requested size.
+10. Return the structured list, flagging any fields Muapi could not resolve (e.g. missing title) rather than guessing.
 
 ## Decision rules
 
@@ -83,7 +93,7 @@ A structured list (table or JSON) with one row per contact:
 
 ## Failure and missing-data behavior
 
-If a capability call fails or times out mid-run, report which step failed and return only the fully-confirmed rows gathered so far — never invent sample companies or contacts to fill a gap.
+If a capability call fails or times out mid-run, report which step failed and return only the fully-confirmed rows gathered so far — never invent sample companies or contacts to fill a gap. The newer `company.technographics`/`company.buying_signals`/`company.job_postings`/`company.headcount_growth`/`people.rank_decision_makers` capabilities are not yet live; until they ship, skip those optional workflow steps and say so explicitly if a caller specifically asked for a technographic filter or signal-based ranking, rather than silently omitting it or fabricating a result.
 
 ## Example interactions
 
