@@ -2,11 +2,11 @@
 
 An AI agent for sales — lead generation, ad-based prospecting, LinkedIn outreach, company enrichment, and email verification — backed by real B2B data APIs.
 
-Part of [Agency Agents OS](https://github.com/Anil-matcha/agency-agents-os), an open ecosystem of specialized AI agents for real business work.
+Part of [Open Business Agents](https://github.com/Anil-matcha/open-business-agents), an open ecosystem of specialized AI agents for real business work.
 
 ## Related Projects
 
-- [Agency Agents OS](https://github.com/Anil-matcha/agency-agents-os) — the central catalog this repo is part of.
+- [Open Business Agents](https://github.com/Anil-matcha/open-business-agents) — the central catalog this repo is part of.
 - [ai-research-agent](https://github.com/SamurAIGPT/ai-research-agent) — deeper web research on a prospect/company beyond enrichment lookups.
 - [ai-marketing-agent](https://github.com/SamurAIGPT/ai-marketing-agent) — nurtures leads this repo generates.
 - [MuAPI MCP docs](https://muapi.ai/docs/mcp) — connect this repo's `SKILL.md` files via MCP.
@@ -78,9 +78,13 @@ Four sub-agents are **Tested** (2026-09-09): `company.enrich`, `people.search`, 
 
 **2026-09-17 addition, not yet reflected in the Tested status above:** Lead Generation, Company Enrichment, and LinkedIn Outreach now also reference `company.technographics`, `company.funding`, `company.buying_signals`, `company.job_postings`, `company.headcount_growth`, `people.rank_decision_makers`, and `linkedin.company_profile`/`linkedin.people_search`/`linkedin.employees` in their workflows. These are code-complete server-side but **not yet live** on Muapi's production API (no DB sync/`seed_skills` run yet, and several endpoint ids are still unverified best-effort guesses pending a live token call) — each affected sub-agent's own `SKILL.md` states this plainly. The pre-existing Tested capabilities on these same sub-agents (`company.enrich`, `people.search`, `outreach.draft_message`) are unaffected and remain live.
 
+## Guides
+
+- [Verify company evidence before scoring accounts](guides/verify-before-scoring-accounts.md) — preserve source, uncertainty, and agreed scoring rules.
+
 ## Contributing
 
-See [Agency Agents OS CONTRIBUTING.md](https://github.com/Anil-matcha/agency-agents-os/blob/main/CONTRIBUTING.md).
+See [Open Business Agents CONTRIBUTING.md](https://github.com/Anil-matcha/open-business-agents/blob/main/CONTRIBUTING.md).
 
 ## License
 
